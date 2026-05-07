@@ -59,6 +59,7 @@ const UserList = () => {
 
 
 
+  // FETCH USERS
   const fetchUsers = async () => {
 
     try {
@@ -84,6 +85,7 @@ const UserList = () => {
 
 
 
+  // DELETE USER
   const handleDelete = async (id) => {
 
     const result = await Swal.fire({
@@ -92,6 +94,7 @@ const UserList = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
+      confirmButtonText: "Delete",
     });
 
     if (!result.isConfirmed) return;
@@ -100,7 +103,7 @@ const UserList = () => {
 
       await deleteUser(id);
 
-      toast.success("User deleted");
+      toast.success("User deleted successfully");
 
       fetchUsers();
 
@@ -113,12 +116,15 @@ const UserList = () => {
 
 
 
+  // SEARCH USER
   const handleSearch = async () => {
 
     try {
 
       if (!search.trim()) {
+
         fetchUsers();
+
         return;
       }
 
@@ -155,7 +161,7 @@ const UserList = () => {
       sx={{
         minHeight: "100vh",
         backgroundColor: "#f4f7fb",
-        py: { xs: 2, md: 5 },
+        py: { xs: 3, md: 5 },
       }}
     >
 
@@ -165,9 +171,9 @@ const UserList = () => {
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 2, md: 4 },
-            mb: 3,
-            borderRadius: 4,
+            p: { xs: 3, md: 4 },
+            mb: 4,
+            borderRadius: 5,
           }}
         >
 
@@ -190,8 +196,8 @@ const UserList = () => {
                 fontWeight="bold"
                 sx={{
                   fontSize: {
-                    xs: "28px",
-                    md: "40px",
+                    xs: "30px",
+                    md: "42px",
                   },
                 }}
               >
@@ -203,7 +209,7 @@ const UserList = () => {
                 color="text.secondary"
                 mt={1}
               >
-                Manage users and export records
+                Manage users, search records and export data
               </Typography>
 
             </Box>
@@ -224,7 +230,8 @@ const UserList = () => {
                 sx={{
                   borderRadius: 3,
                   textTransform: "none",
-                  height: 48,
+                  height: 50,
+                  fontWeight: "bold",
                 }}
               >
                 Export CSV
@@ -242,7 +249,8 @@ const UserList = () => {
                 sx={{
                   borderRadius: 3,
                   textTransform: "none",
-                  height: 48,
+                  height: 50,
+                  fontWeight: "bold",
                 }}
               >
                 Add User
@@ -260,9 +268,9 @@ const UserList = () => {
         <Paper
           elevation={0}
           sx={{
-            p: { xs: 2, md: 4 },
-            mb: 3,
-            borderRadius: 4,
+            p: { xs: 3, md: 4 },
+            mb: 4,
+            borderRadius: 5,
           }}
         >
 
@@ -273,9 +281,11 @@ const UserList = () => {
 
             <TextField
               fullWidth
-              label="Search user"
+              label="Search by name or email"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
             />
 
 
@@ -285,9 +295,13 @@ const UserList = () => {
               startIcon={<Search />}
               onClick={handleSearch}
               sx={{
-                minWidth: { xs: "100%", md: 150 },
+                minWidth: {
+                  xs: "100%",
+                  md: 170,
+                },
                 borderRadius: 3,
                 textTransform: "none",
+                fontWeight: "bold",
               }}
             >
               Search
@@ -303,7 +317,7 @@ const UserList = () => {
         <Paper
           elevation={0}
           sx={{
-            borderRadius: 4,
+            borderRadius: 5,
             overflow: "hidden",
           }}
         >
@@ -314,37 +328,82 @@ const UserList = () => {
             }}
           >
 
-            <Table sx={{ minWidth: 800 }}>
+            <Table
+              sx={{
+                minWidth: 900,
+              }}
+            >
 
               <TableHead>
 
                 <TableRow
                   sx={{
-                    backgroundColor: "#1976d2",
+                    background:
+                      "linear-gradient(to right, #1976d2, #42a5f5)",
                   }}
                 >
 
-                  <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+                  <TableCell
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
                     User
                   </TableCell>
 
-                  <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+
+
+                  <TableCell
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Email
                   </TableCell>
 
-                  <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+
+
+                  <TableCell
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Mobile
                   </TableCell>
 
-                  <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+
+
+                  <TableCell
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Gender
                   </TableCell>
 
-                  <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+
+
+                  <TableCell
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Status
                   </TableCell>
 
-                  <TableCell sx={{ color: "#fff", fontWeight: 700 }}>
+
+
+                  <TableCell
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Actions
                   </TableCell>
 
@@ -360,10 +419,15 @@ const UserList = () => {
 
                   <TableRow>
 
-                    <TableCell colSpan={6} align="center">
+                    <TableCell
+                      colSpan={6}
+                      align="center"
+                    >
 
-                      <Box py={5}>
+                      <Box py={6}>
+
                         <CircularProgress />
+
                       </Box>
 
                     </TableCell>
@@ -374,8 +438,12 @@ const UserList = () => {
 
                   users.map((user) => (
 
-                    <TableRow key={user._id} hover>
+                    <TableRow
+                      key={user._id}
+                      hover
+                    >
 
+                      {/* USER */}
                       <TableCell>
 
                         <Stack
@@ -386,15 +454,32 @@ const UserList = () => {
                           }}
                         >
 
-                          <Avatar>
+                          <Avatar
+                            src={user.image}
+                            alt={user.firstName}
+                            sx={{
+                              width: 55,
+                              height: 55,
+                              border:
+                                "2px solid #e3f2fd",
+                            }}
+                          >
                             {user.firstName?.charAt(0)}
                           </Avatar>
 
+
+
                           <Box>
 
-                            <Typography fontWeight={600}>
-                              {user.firstName} {user.lastName}
+                            <Typography
+                              fontWeight={700}
+                              fontSize="16px"
+                            >
+                              {user.firstName}{" "}
+                              {user.lastName}
                             </Typography>
+
+
 
                             <Typography
                               variant="body2"
@@ -411,20 +496,28 @@ const UserList = () => {
 
 
 
+                      {/* EMAIL */}
                       <TableCell>
                         {user.email}
                       </TableCell>
 
+
+
+                      {/* MOBILE */}
                       <TableCell>
                         {user.mobile}
                       </TableCell>
 
+
+
+                      {/* GENDER */}
                       <TableCell>
                         {user.gender}
                       </TableCell>
 
 
 
+                      {/* STATUS */}
                       <TableCell>
 
                         <Chip
@@ -435,15 +528,22 @@ const UserList = () => {
                               : "error"
                           }
                           size="small"
+                          sx={{
+                            fontWeight: "bold",
+                          }}
                         />
 
                       </TableCell>
 
 
 
+                      {/* ACTIONS */}
                       <TableCell>
 
-                        <Stack direction="row">
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                        >
 
                           <IconButton
                             component={Link}
@@ -467,7 +567,9 @@ const UserList = () => {
 
                           <IconButton
                             color="error"
-                            onClick={() => handleDelete(user._id)}
+                            onClick={() =>
+                              handleDelete(user._id)
+                            }
                           >
                             <Delete />
                           </IconButton>
@@ -484,11 +586,17 @@ const UserList = () => {
 
                   <TableRow>
 
-                    <TableCell colSpan={6} align="center">
+                    <TableCell
+                      colSpan={6}
+                      align="center"
+                    >
 
-                      <Box py={5}>
+                      <Box py={6}>
 
-                        <Typography>
+                        <Typography
+                          variant="h6"
+                          fontWeight="bold"
+                        >
                           No Users Found
                         </Typography>
 
@@ -522,7 +630,9 @@ const UserList = () => {
           <Pagination
             count={totalPages}
             page={page}
-            onChange={(e, value) => setPage(value)}
+            onChange={(e, value) =>
+              setPage(value)
+            }
             color="primary"
           />
 

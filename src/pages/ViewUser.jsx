@@ -22,7 +22,10 @@ import {
   Person,
 } from "@mui/icons-material";
 
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useParams,
+} from "react-router-dom";
 
 import { toast } from "react-toastify";
 
@@ -74,16 +77,21 @@ const ViewUser = () => {
 
 
   if (loading) {
+
     return (
+
       <Box
         sx={{
           minHeight: "100vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#f4f7fb",
         }}
       >
+
         <CircularProgress />
+
       </Box>
     );
   }
@@ -96,7 +104,7 @@ const ViewUser = () => {
       sx={{
         minHeight: "100vh",
         backgroundColor: "#f4f7fb",
-        py: 5,
+        py: { xs: 3, md: 5 },
       }}
     >
 
@@ -113,21 +121,27 @@ const ViewUser = () => {
           {/* TOP SECTION */}
           <Box
             sx={{
-              background: "linear-gradient(to right, #1976d2, #42a5f5)",
-              p: 5,
+              background:
+                "linear-gradient(to right, #1976d2, #42a5f5)",
+              p: { xs: 4, md: 5 },
               color: "#fff",
               textAlign: "center",
             }}
           >
 
             <Avatar
+              src={user?.image}
+              alt={user?.firstName}
               sx={{
-                width: 120,
-                height: 120,
+                width: 130,
+                height: 130,
                 margin: "0 auto",
                 fontSize: "40px",
                 fontWeight: "bold",
                 mb: 2,
+                border: "4px solid rgba(255,255,255,0.3)",
+                boxShadow:
+                  "0 10px 30px rgba(0,0,0,0.2)",
               }}
             >
               {user?.firstName?.charAt(0)}
@@ -138,13 +152,25 @@ const ViewUser = () => {
             <Typography
               variant="h4"
               fontWeight="bold"
+              sx={{
+                fontSize: {
+                  xs: "28px",
+                  md: "38px",
+                },
+              }}
             >
               {user?.firstName} {user?.lastName}
             </Typography>
 
 
 
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{
+                opacity: 0.9,
+                mt: 1,
+              }}
+            >
               {user?.location}
             </Typography>
 
@@ -168,7 +194,11 @@ const ViewUser = () => {
 
 
           {/* DETAILS */}
-          <Box p={4}>
+          <Box
+            sx={{
+              p: { xs: 3, md: 5 },
+            }}
+          >
 
             <Typography
               variant="h5"
@@ -184,6 +214,7 @@ const ViewUser = () => {
 
             <Grid container spacing={4}>
 
+              {/* FULL NAME */}
               <Grid item xs={12} md={6}>
 
                 <Stack
@@ -215,6 +246,7 @@ const ViewUser = () => {
 
 
 
+              {/* EMAIL */}
               <Grid item xs={12} md={6}>
 
                 <Stack
@@ -246,6 +278,7 @@ const ViewUser = () => {
 
 
 
+              {/* MOBILE */}
               <Grid item xs={12} md={6}>
 
                 <Stack
@@ -277,6 +310,7 @@ const ViewUser = () => {
 
 
 
+              {/* LOCATION */}
               <Grid item xs={12} md={6}>
 
                 <Stack
@@ -308,6 +342,7 @@ const ViewUser = () => {
 
 
 
+              {/* GENDER */}
               <Grid item xs={12} md={6}>
 
                 <Typography
@@ -325,6 +360,7 @@ const ViewUser = () => {
 
 
 
+              {/* STATUS */}
               <Grid item xs={12} md={6}>
 
                 <Typography
@@ -356,6 +392,8 @@ const ViewUser = () => {
                   borderRadius: 3,
                   textTransform: "none",
                   px: 3,
+                  py: 1,
+                  fontWeight: "bold",
                 }}
               >
                 Back to Users

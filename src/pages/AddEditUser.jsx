@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
+  Avatar,
   Box,
   Button,
   Container,
@@ -12,9 +13,16 @@ import {
   Typography,
 } from "@mui/material";
 
-import { ArrowBack } from "@mui/icons-material";
+import {
+  ArrowBack,
+  Image,
+} from "@mui/icons-material";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 
@@ -33,9 +41,14 @@ import {
 
 
 const schema = yup.object({
-  firstName: yup.string().required("First name is required"),
 
-  lastName: yup.string().required("Last name is required"),
+  firstName: yup
+    .string()
+    .required("First name is required"),
+
+  lastName: yup
+    .string()
+    .required("Last name is required"),
 
   email: yup
     .string()
@@ -46,11 +59,23 @@ const schema = yup.object({
     .string()
     .required("Mobile number is required"),
 
-  gender: yup.string().required("Gender is required"),
+  gender: yup
+    .string()
+    .required("Gender is required"),
 
-  status: yup.string().required("Status is required"),
+  status: yup
+    .string()
+    .required("Status is required"),
 
-  location: yup.string().required("Location is required"),
+  location: yup
+    .string()
+    .required("Location is required"),
+
+  image: yup
+    .string()
+    .url("Enter valid image URL")
+    .required("Image URL is required"),
+
 });
 
 
@@ -61,17 +86,31 @@ const AddEditUser = () => {
 
   const { id } = useParams();
 
+  const [preview, setPreview] = useState("");
+
 
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
+
+
+  const imageValue = watch("image");
+
+
+
+  useEffect(() => {
+
+    setPreview(imageValue);
+
+  }, [imageValue]);
 
 
 
@@ -82,6 +121,8 @@ const AddEditUser = () => {
       const { data } = await getSingleUser(id);
 
       reset(data.user);
+
+      setPreview(data.user.image);
 
     } catch (error) {
 
@@ -102,7 +143,6 @@ const AddEditUser = () => {
 
 
 
- 
   const onSubmit = async (formData) => {
 
     try {
@@ -124,9 +164,11 @@ const AddEditUser = () => {
       navigate("/");
 
     } catch (error) {
-    toast.error(
-  error.response?.data?.message || "Something went wrong"
-);
+
+      toast.error(
+        error.response?.data?.message ||
+        "Something went wrong"
+      );
 
     }
   };
@@ -139,7 +181,7 @@ const AddEditUser = () => {
       sx={{
         minHeight: "100vh",
         backgroundColor: "#f4f7fb",
-        py: 5,
+        py: { xs: 3, md: 5 },
       }}
     >
 
@@ -148,8 +190,8 @@ const AddEditUser = () => {
         <Paper
           elevation={0}
           sx={{
-            p: 4,
-            borderRadius: 4,
+            p: { xs: 3, md: 5 },
+            borderRadius: 5,
           }}
         >
 
@@ -161,12 +203,30 @@ const AddEditUser = () => {
             mb={4}
           >
 
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-            >
-              {id ? "Edit User" : "Add User"}
-            </Typography>
+            <Box>
+
+              <Typography
+                variant="h4"
+                fontWeight="bold"
+                sx={{
+                  fontSize: {
+                    xs: "28px",
+                    md: "36px",
+                  },
+                }}
+              >
+                {id ? "Edit User" : "Add User"}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                mt={1}
+              >
+                Manage user information
+              </Typography>
+
+            </Box>
 
 
 
@@ -174,11 +234,38 @@ const AddEditUser = () => {
               component={Link}
               to="/"
               startIcon={<ArrowBack />}
+              sx={{
+                textTransform: "none",
+              }}
             >
               Back
             </Button>
 
           </Stack>
+
+
+
+          {/* IMAGE PREVIEW */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mb: 4,
+            }}
+          >
+
+            <Avatar
+              src={preview}
+              sx={{
+                width: 110,
+                height: 110,
+                bgcolor: "#1976d2",
+              }}
+            >
+              <Image />
+            </Avatar>
+
+          </Box>
 
 
 
@@ -295,7 +382,7 @@ const AddEditUser = () => {
 
 
 
-              <Grid item xs={12}>
+              <Grid item xs={12} md={6}>
 
                 <TextField
                   fullWidth
@@ -309,21 +396,39 @@ const AddEditUser = () => {
 
 
 
+              <Grid item xs={12} md={6}>
+
+                <TextField
+                  fullWidth
+                  label="Image URL"
+                  placeholder="https://example.com/image.jpg"
+                  {...register("image")}
+                  error={!!errors.image}
+                  helperText={errors.image?.message}
+                />
+
+              </Grid>
+
+
+
               <Grid item xs={12}>
 
                 <Button
                   type="submit"
                   variant="contained"
-                  size="large"
                   fullWidth
+                  size="large"
                   sx={{
-                    py: 1.5,
+                    py: 1.7,
                     borderRadius: 3,
                     textTransform: "none",
                     fontSize: "16px",
+                    fontWeight: "bold",
                   }}
                 >
-                  {id ? "Update User" : "Create User"}
+                  {id
+                    ? "Update User"
+                    : "Create User"}
                 </Button>
 
               </Grid>
